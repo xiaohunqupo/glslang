@@ -26,9 +26,9 @@ spv.coopmatKHR.comp
                               SourceExtension  "GL_KHR_cooperative_matrix"
                               SourceExtension  "GL_KHR_memory_scope_semantics"
                               Name 4  "main"
-                              Name 15  "f16(f161;"
+                              Name 15  "f16(f161<3><8><8><2>;"
                               Name 14  "m"
-                              Name 22  "f32(f1;"
+                              Name 22  "f32(f1<3><8><8><2>;"
                               Name 21  "m"
                               Name 35  "m"
                               Name 53  "m2"
@@ -82,24 +82,24 @@ spv.coopmatKHR.comp
                               Name 249  "scm"
                               Decorate 67 ArrayStride 4
                               Decorate 68 ArrayStride 4
+                              Decorate 69(Block) Block
                               MemberDecorate 69(Block) 0 Offset 0
                               MemberDecorate 69(Block) 1 Offset 4194304
-                              Decorate 69(Block) Block
-                              Decorate 71(block) DescriptorSet 0
                               Decorate 71(block) Binding 0
+                              Decorate 71(block) DescriptorSet 0
                               Decorate 81 ArrayStride 2
                               Decorate 83 ArrayStride 2
+                              Decorate 85(Block16) Block
                               MemberDecorate 85(Block16) 0 Offset 0
                               MemberDecorate 85(Block16) 1 Offset 2097152
                               MemberDecorate 85(Block16) 2 Offset 2097160
-                              Decorate 85(Block16) Block
                               Decorate 86 ArrayStride 4
                               Decorate 87 ArrayStride 4
+                              Decorate 88(Block) Block
                               MemberDecorate 88(Block) 0 Offset 0
                               MemberDecorate 88(Block) 1 Offset 4194304
-                              Decorate 88(Block) Block
-                              Decorate 90(block16) DescriptorSet 0
                               Decorate 90(block16) Binding 0
+                              Decorate 90(block16) DescriptorSet 0
                               Decorate 128(Y) SpecId 0
                               Decorate 232 BuiltIn WorkgroupSize
                               Decorate 234(F) SpecId 1
@@ -343,11 +343,11 @@ spv.coopmatKHR.comp
                               CooperativeMatrixStoreKHR 168 167 62 75 MakePointerAvailableKHR NonPrivatePointerKHR 72
              171:          11 Load 169(p1)
                               Store 170(param) 171
-             172:          11 FunctionCall 15(f16(f161;) 170(param)
+             172:          11 FunctionCall 15(f16(f161<3><8><8><2>;) 170(param)
                               Store 169(p1) 172
              175:          18 Load 173(p2)
                               Store 174(param) 175
-             176:          18 FunctionCall 22(f32(f1;) 174(param)
+             176:          18 FunctionCall 22(f32(f1<3><8><8><2>;) 174(param)
                               Store 173(p2) 176
                               Store 169(p1) 177
                               Store 173(p2) 178
@@ -372,28 +372,28 @@ spv.coopmatKHR.comp
              205:         202 Load 204(ms8A)
              209:         206 Load 208(ms8B)
              213:         210 Load 212(ms8C)
-             214:         210 CooperativeMatrixMulAddKHR 205 209 213 ASignedComponents BSignedComponents CSignedComponents ResultSignedComponents 
+             214:         210 CooperativeMatrixMulAddKHR 205 209 213 ASignedComponentsKHR BSignedComponentsKHR CSignedComponentsKHR ResultSignedComponentsKHR 
              215:         202 Load 204(ms8A)
              216:         206 Load 208(ms8B)
              217:         210 Load 212(ms8C)
-             218:         210 CooperativeMatrixMulAddKHR 215 216 217 ASignedComponents BSignedComponents CSignedComponents ResultSignedComponents 
+             218:         210 CooperativeMatrixMulAddKHR 215 216 217 ASignedComponentsKHR BSignedComponentsKHR CSignedComponentsKHR ResultSignedComponentsKHR 
              219:         202 Load 204(ms8A)
              220:         206 Load 208(ms8B)
              221:         210 Load 212(ms8C)
-             223:         210 CooperativeMatrixMulAddKHR 219 220 221 ASignedComponents BSignedComponents CSignedComponents ResultSignedComponents SaturatingAccumulation 
+             223:         210 CooperativeMatrixMulAddKHR 219 220 221 ASignedComponentsKHR BSignedComponentsKHR CSignedComponentsKHR ResultSignedComponentsKHR SaturatingAccumulationKHR 
              228:         225 Load 227(m16)
              229:    194(ptr) AccessChain 193(shmatrix) 82
                               CooperativeMatrixStoreKHR 229 228 62 10 MakePointerAvailableKHR NonPrivatePointerKHR 10
                               Return
                               FunctionEnd
-   15(f16(f161;):          11 Function None 13
+15(f16(f161<3><8><8><2>;):          11 Function None 13
            14(m):     12(ptr) FunctionParameter
               16:             Label
               24:          11 Load 14(m)
               25:          11 FNegate 24
                               ReturnValue 25
                               FunctionEnd
-     22(f32(f1;):          18 Function None 20
+22(f32(f1<3><8><8><2>;):          18 Function None 20
            21(m):     19(ptr) FunctionParameter
               23:             Label
               28:          18 Load 21(m)
