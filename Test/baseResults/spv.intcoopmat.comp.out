@@ -27,9 +27,9 @@ spv.intcoopmat.comp
                               SourceExtension  "GL_NV_cooperative_matrix"
                               SourceExtension  "GL_NV_integer_cooperative_matrix"
                               Name 4  "main"
-                              Name 14  "ineg(i81;"
+                              Name 14  "ineg(i81<8><3><8><8>;"
                               Name 13  "m"
-                              Name 21  "umul(u81;"
+                              Name 21  "umul(u81<8><3><8><8>;"
                               Name 20  "m"
                               Name 35  "mu"
                               Name 39  "mi"
@@ -91,24 +91,24 @@ spv.intcoopmat.comp
                               Name 285  "scm"
                               Decorate 83 ArrayStride 4
                               Decorate 84 ArrayStride 4
+                              Decorate 85(Block) Block
                               MemberDecorate 85(Block) 0 Offset 0
                               MemberDecorate 85(Block) 1 Offset 4194304
-                              Decorate 85(Block) Block
-                              Decorate 87(block) DescriptorSet 0
                               Decorate 87(block) Binding 0
+                              Decorate 87(block) DescriptorSet 0
                               Decorate 99 ArrayStride 1
                               Decorate 101 ArrayStride 1
+                              Decorate 103(Block16) Block
                               MemberDecorate 103(Block16) 0 Offset 0
                               MemberDecorate 103(Block16) 1 Offset 1048576
                               MemberDecorate 103(Block16) 2 Offset 1048584
-                              Decorate 103(Block16) Block
                               Decorate 104 ArrayStride 4
                               Decorate 105 ArrayStride 4
+                              Decorate 106(Block) Block
                               MemberDecorate 106(Block) 0 Offset 0
                               MemberDecorate 106(Block) 1 Offset 4194304
-                              Decorate 106(Block) Block
-                              Decorate 108(block8) DescriptorSet 0
                               Decorate 108(block8) Binding 0
+                              Decorate 108(block8) DescriptorSet 0
                               Decorate 156(Y) SpecId 0
                               Decorate 247 BuiltIn WorkgroupSize
                               Decorate 280(SC) SpecId 2
@@ -391,11 +391,11 @@ spv.intcoopmat.comp
                               CooperativeMatrixStoreNV 187 186 91 93 MakePointerAvailableKHR NonPrivatePointerKHR 88
              190:          10 Load 188(p1)
                               Store 189(param) 190
-             191:          10 FunctionCall 14(ineg(i81;) 189(param)
+             191:          10 FunctionCall 14(ineg(i81<8><3><8><8>;) 189(param)
                               Store 188(p1) 191
              194:          17 Load 192(p2)
                               Store 193(param) 194
-             195:          17 FunctionCall 21(umul(u81;) 193(param)
+             195:          17 FunctionCall 21(umul(u81<8><3><8><8>;) 193(param)
                               Store 192(p2) 195
              196:          10 Load 188(p1)
              197:          10 Load 188(p1)
@@ -439,14 +439,14 @@ spv.intcoopmat.comp
                               CooperativeMatrixStoreNV 244 243 213 93 MakePointerAvailableKHR NonPrivatePointerKHR 213
                               Return
                               FunctionEnd
-   14(ineg(i81;):          10 Function None 12
+14(ineg(i81<8><3><8><8>;):          10 Function None 12
            13(m):     11(ptr) FunctionParameter
               15:             Label
               23:          10 Load 13(m)
               24:          10 SNegate 23
                               ReturnValue 24
                               FunctionEnd
-   21(umul(u81;):          17 Function None 19
+21(umul(u81<8><3><8><8>;):          17 Function None 19
            20(m):     18(ptr) FunctionParameter
               22:             Label
               27:          17 Load 20(m)
