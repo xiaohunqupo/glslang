@@ -84,7 +84,8 @@ typedef TVector<const char*> TExtensionList;
 class TSymbol {
 public:
     POOL_ALLOCATOR_NEW_DELETE(GetThreadPoolAllocator())
-    explicit TSymbol(const TString *n) :  name(n), uniqueId(0), extensions(nullptr), writable(true) { }
+    explicit TSymbol(const TString *n, const TString *mn) :  name(n), mangledName(mn), uniqueId(0), extensions(nullptr), writable(true) { }
+    explicit TSymbol(const TString *n) : TSymbol(n, n) { }
     virtual TSymbol* clone() const = 0;
     virtual ~TSymbol() { }  // rely on all symbol owned memory coming from the pool
 
@@ -96,7 +97,7 @@ public:
         newName.append(*name);
         changeName(NewPoolTString(newName.c_str()));
     }
-    virtual const TString& getMangledName() const { return getName(); }
+    virtual const TString& getMangledName() const { return *mangledName; }
     virtual TFunction* getAsFunction() { return nullptr; }
     virtual const TFunction* getAsFunction() const { return nullptr; }
     virtual TVariable* getAsVariable() { return nullptr; }
@@ -128,6 +129,7 @@ protected:
     TSymbol& operator=(const TSymbol&);
 
     const TString *name;
+    const TString *mangledName;
     unsigned long long uniqueId;      // For cross-scope comparing during code generation
 
     // For tracking what extensions must be present
@@ -154,7 +156,9 @@ protected:
 class TVariable : public TSymbol {
 public:
     TVariable(const TString *name, const TType& t, bool uT = false )
-        : TSymbol(name),
+        : TVariable(name, name, t, uT) {}
+    TVariable(const TString *name, const TString *mangledName, const TType& t, bool uT = false )
+        : TSymbol(name, mangledName),
           userType(uT),
           constSubtree(nullptr),
           memberExtensions(nullptr),
@@ -246,7 +250,8 @@ public:
         TSymbol(name),
         mangledName(*name + '('),
         op(tOp),
-        defined(false), prototyped(false), implicitThis(false), illegalImplicitThis(false), defaultParamCount(0)
+        defined(false), prototyped(false), implicitThis(false), illegalImplicitThis(false), defaultParamCount(0),
+        linkType(ELinkNone)
     {
         returnType.shallowCopy(retType);
         declaredBuiltIn = retType.getQualifier().builtIn;
@@ -326,6 +331,9 @@ public:
 
     virtual void dump(TInfoSink& infoSink, bool complete = false) const override;
 
+    void setExport() { linkType = ELinkExport; }
+    TLinkType getLinkType() const { return linkType; }
+
 protected:
     explicit TFunction(const TFunction&);
     TFunction& operator=(const TFunction&);
@@ -347,6 +355,7 @@ protected:
     int  defaultParamCount;
 
     TSpirvInstruction spirvInst; // SPIR-V instruction qualifiers
+    TLinkType linkType;
 };
 
 //
@@ -571,6 +580,7 @@ public:
 
     void relateToOperator(const char* name, TOperator op);
     void setFunctionExtensions(const char* name, int num, const char* const extensions[]);
+    void setSingleFunctionExtensions(const char* name, int num, const char* const extensions[]);
     void dump(TInfoSink& infoSink, bool complete = false) const;
     TSymbolTableLevel* clone() const;
     void readOnly();
@@ -870,6 +880,12 @@ public:
     {
         for (unsigned int level = 0; level < table.size(); ++level)
             table[level]->setFunctionExtensions(name, num, extensions);
+    }
+
+    void setSingleFunctionExtensions(const char* name, int num, const char* const extensions[])
+    {
+        for (unsigned int level = 0; level < table.size(); ++level)
+            table[level]->setSingleFunctionExtensions(name, num, extensions);
     }
 
     void setVariableExtensions(const char* name, int numExts, const char* const extensions[])
